@@ -1,0 +1,74 @@
+const Discord = require("discord.js");
+const client = new Discord.Client()
+const prefix = "ch!";
+const randdia = [
+    "MY HEARTS GO OUT TO ALL YOU SINNERS!",
+    "SHALL WE PLAY THE RING-AROUND?",
+    "CHAOS, CHAOS, CATCH ME IF YOU CAN!",
+    "HEE, HEE, HAVING FUN?! JOIN THE CLUB!",
+    "HEARTS, DIAMONDS, I CAN DO ANYTHING!",
+    "WHO KEEPS SPINNING THE WORLD AROUND?",
+    "A BEAUTY IS JOYING IN MY HEART!",
+    "EVEN DEVILSKNIFE IS SMILING!",
+    "IT'S SO EXCITING... I CAN'T TAKE IT!",
+    "A CHAOS, CHAOS!",
+    "PLEASE, IT'S JUST A SIMPLE CHAOS.",
+    "IT'S ALL TOO MUCH FUN!!!"
+];
+function rand(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+client.on("ready", function() {
+    client.user.setActivity("a numbers game!");
+});
+client.on('message', async message => {
+    message.content = message.content.toLowerCase();
+    if (rand(1, 10) == 5 && message.author.id != "904547560331550771") {
+        var curr = message.channel.position;
+        var newpos = curr;
+        var channelarr = client.channels.cache.array();
+        for (var i = 0; i < channelarr.length; i++) {
+            let item = channelarr[i];
+            if (item.type != 'text') {
+                channelarr.splice(i, i);
+            }
+        }
+        console.log(channelarr[0].type != 'text');
+        if (channelarr[0].type != 'text') {
+            channelarr.splice(0, 1);
+        }
+        while (newpos == curr) {
+            newpos = rand(0, channelarr.length);    
+        }
+        message.channel.setPosition(newpos);
+        message.channel.send(randdia[Math.floor(Math.random() * randdia.length)]);
+    }
+    if (message.content.startsWith(prefix)) {
+        if (message.content.startsWith("ch! ping")) {
+            setTimeout(function() {
+                message.channel.send("@everyone CHAOS CHAOS!");
+            }, rand(1000, 100000));
+        }
+        if (message.content.startsWith("ch! ringaround")) {
+            var channelarr = client.channels.cache.array();
+            for (var i = 0; i < channelarr.length; i++) {
+                let item = channelarr[i];
+                if (item.type != 'text') {
+                    channelarr.splice(i, i);
+                }
+            }
+            console.log(channelarr[0].type != 'text');
+            if (channelarr[0].type != 'text') {
+                channelarr.splice(0, 1);
+            }
+            for (var i = 0; i < channelarr.length; i++) {
+                channelarr[i].send("@everyone SHALL WE PLAY THE RING-AROUND?");
+            }
+        }
+    }
+    
+})
+
+client.login('Bot token');
